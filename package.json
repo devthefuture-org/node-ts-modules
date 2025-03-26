@@ -1,6 +1,6 @@
 {
   "name": "node-ts-modules",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Enable direct TypeScript imports from node_modules using Node.js --experimental-strip-types",
   "bin": {
     "node-ts-modules-postinstall": "./postinstall.js"
