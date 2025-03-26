@@ -38,7 +38,27 @@ function ensureTsModulesFolder(projectRoot) {
  * @param {string} targetPath - Absolute path to the package's TS entry file or directory.
  */
 function createSymlink(tsModulesDir, packageName, targetPath) {
-  const symlinkPath = path.join(tsModulesDir, packageName);
+  let symlinkPath;
+  
+  // Handle scoped packages (@org/package-name)
+  if (packageName.startsWith('@')) {
+    // Split the package name into scope and package parts
+    const [scope, pkgName] = packageName.split('/');
+    
+    // Create the scope directory if it doesn't exist
+    const scopeDir = path.join(tsModulesDir, scope);
+    if (!fs.existsSync(scopeDir)) {
+      fs.mkdirSync(scopeDir, { recursive: true });
+      console.log(`Created scope directory: ${scopeDir}`);
+    }
+    
+    // Set the symlink path to be inside the scope directory
+    symlinkPath = path.join(scopeDir, pkgName);
+  } else {
+    // For regular packages, just use the package name directly
+    symlinkPath = path.join(tsModulesDir, packageName);
+  }
+  
   try {
     // Remove existing symlink (or file) if it exists.
     if (fs.existsSync(symlinkPath)) {
