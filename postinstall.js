@@ -119,8 +119,7 @@ function main() {
       process.exit(1);
     }
     
-    // Default to the package root, or check for src directory
-    relativeTsEntry = fs.existsSync(path.join(process.cwd(), 'src')) ? './src' : '.';
+    relativeTsEntry = '.';
   }
   
   const projectRoot = findProjectRoot();
